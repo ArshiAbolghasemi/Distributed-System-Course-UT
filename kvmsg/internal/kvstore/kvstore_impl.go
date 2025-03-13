@@ -22,11 +22,11 @@ func (im *impl) Delete(key string) {
 }
 
 func (im *impl) Update(key string, oldVal []byte, newVal []byte) {
-	valueList, exist := im.storage[key]
-	if !exist {
+    valueList, exist := im.storage[key]
+    if !exist {
         im.Put(key, newVal)
-		return
-	}
+        return
+    }
 
     markedIndex := util.FindIndex(valueList, oldVal)
     if markedIndex != -1 {
@@ -34,6 +34,6 @@ func (im *impl) Update(key string, oldVal []byte, newVal []byte) {
         return
     }
 
-	im.storage[key] = util.ReplaceElement(valueList, markedIndex, newVal)
+    im.storage[key] = util.ReplaceElement(valueList, markedIndex, newVal)
 }
 
