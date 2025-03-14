@@ -8,6 +8,12 @@ type impl struct {
     storage map[string][]([]byte)
 }
 
+func New() KVStore {
+    return &impl{
+        storage: make(map[string][]([]byte)),
+    }
+}
+
 func (im *impl) Put(key string, value []byte) {
     im.storage[key] = append(im.storage[key], value)
 }
