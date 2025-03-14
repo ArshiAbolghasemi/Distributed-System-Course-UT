@@ -22,13 +22,13 @@ func LoadConfig(filename string) (Config, error) {
 	v.SetConfigFile(filename)
 	err := v.ReadInConfig()
 	if err != nil {
-		return Config{}, fmt.Errorf("config: %w", err)
+		return Config{}, fmt.Errorf("config: %v", err)
 	}
 
 	var c Config
 	err = v.Unmarshal(&c)
 	if err != nil {
-		return Config{}, fmt.Errorf("config: %w", err)
+		return Config{}, fmt.Errorf("config: %v", err)
 	}
 
 	return c, nil
