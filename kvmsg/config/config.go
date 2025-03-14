@@ -8,8 +8,9 @@ import (
 
 type Config struct {
 	Server struct {
-		Host string `mapstructure:"host"`
-		Port string `mapstructure:"port"`
+		Host     string `mapstructure:"host"`
+		Port     string `mapstructure:"port"`
+		Protocol string `mapstructure:"protocol"`
 	} `mapstructure:"server"`
 	Client struct {
 		ChannelBufferLimit int `mapstructure:"channelBufferLimit"`
@@ -17,19 +18,22 @@ type Config struct {
 }
 
 func LoadConfig(filename string) (Config, error) {
-    v := viper.New()
-    v.SetConfigFile(filename)
-    err := v.ReadInConfig()
-    if err != nil {
-        return Config{}, fmt.Errorf("config: %w", err)
-    }
+	v := viper.New()
+	v.SetConfigFile(filename)
+	err := v.ReadInConfig()
+	if err != nil {
+		return Config{}, fmt.Errorf("config: %w", err)
+	}
 
 	var c Config
-    err = v.Unmarshal(&c)
-    if err != nil {
-        return Config{}, fmt.Errorf("config: %w", err)
-    }	
+	err = v.Unmarshal(&c)
+	if err != nil {
+		return Config{}, fmt.Errorf("config: %w", err)
+	}
 
 	return c, nil
 }
 
+func (c Config) GetServerAddress() string {
+    return fmt.Sprintf("%s:%s", c.Server.Host, c.Server.Port)
+}
