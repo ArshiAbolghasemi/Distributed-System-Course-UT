@@ -35,5 +35,5 @@ func LoadConfig(filename string) (Config, error) {
 }
 
 func (c Config) GetServerAddress() string {
-    return fmt.Sprintf("%s:%s", c.Server.Host, c.Server.Port)
+	return fmt.Sprintf("%s:%s", c.Server.Host, c.Server.Port)
 }
