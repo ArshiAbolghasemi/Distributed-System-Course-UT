@@ -101,7 +101,7 @@ func handleClientCommands(kvClient client.KVClient, stopChan chan struct{}) {
 		fmt.Printf("Error reading input: %v\n", err)
 		close(stopChan)
 	}
-    stopChan <- struct{}{}
+	stopChan <- struct{}{}
 }
 
 func greeting(serverAddr string) {
