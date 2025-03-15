@@ -3,13 +3,12 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"kvmsg/config"
+	"kvmsg/internal/client"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
-
-	"kvmsg/config"
-	"kvmsg/internal/client"
 )
 
 const (
@@ -26,6 +25,7 @@ func main() {
 		fmt.Printf("Failed to Load Config: %v", err)
 		os.Exit(1)
 	}
+
 	kvClient := client.New()
 	err = kvClient.Connect(serverAddr)
 	if err != nil {
@@ -38,66 +38,89 @@ func main() {
 
 	signalChan := make(chan os.Signal, 1)
 	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
-
 	stopChan := make(chan struct{})
-
-	go func() {
-		scanner := bufio.NewScanner(os.Stdin)
-		for scanner.Scan() {
-			select {
-			case <-stopChan:
-				return
-			default:
-				command := scanner.Text()
-
-				if strings.ToLower(command) == "exit" {
-					fmt.Println("Exiting...")
-					close(stopChan)
-					return
-				}
-
-				handleCommand(kvClient, command)
-			}
-		}
-	}()
+	doneReading := make(chan struct{})
+	doneInput := make(chan struct{})
+	
+	go handleRead(kvClient, stopChan, doneReading)
+	go handleClientCommands(kvClient, stopChan, doneInput)
 
 	select {
 	case <-signalChan:
 		fmt.Println("\nReceived shutdown signal")
 	case <-stopChan:
+        fmt.Println("Stopping on request...")
 	}
 
+    close(stopChan)
+
+	<-doneReading
+	<-doneInput
 	fmt.Println("Closing connection...")
+}
+
+func handleRead(kvClient client.KVClient, stopChan chan struct{}, done chan struct{}) {
+	for {
+		select {
+		case <-stopChan:
+			done <- struct{}{}
+			return
+		default:
+			resp, err := kvClient.ReadResponse()
+			if err != nil {
+				if strings.Contains(err.Error(), "EOF") || strings.Contains(err.Error(), "closed") {
+					fmt.Printf("\nConnection to server closed\n")
+					done <- struct{}{}
+					return
+				}
+				fmt.Printf("\nError reading from server: %v\n", err)
+				continue
+			}
+			fmt.Printf("\nServer: %s\n> ", resp)
+		}
+	}
+}
+
+func handleClientCommands(kvClient client.KVClient, stopChan chan struct{}, done chan struct{}) {
+	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Print("> ")
+	for scanner.Scan() {
+		select {
+		case <-stopChan:
+			done <- struct{}{}
+			return
+		default:
+			command := scanner.Text()
+			if strings.ToLower(command) == "exit" {
+				fmt.Println("Exiting...")
+				done <- struct{}{}
+				return
+			}
+			err := kvClient.SendMessage(command)
+			if err != nil {
+				fmt.Printf("Error sending message: %v\n", err)
+			}
+			fmt.Print("> ")
+		}
+	}
+	if err := scanner.Err(); err != nil {
+		fmt.Printf("Error reading input: %v\n", err)
+		close(stopChan)
+	}
+	done <- struct{}{}
 }
 
 func greeting(serverAddr string) {
 	fmt.Printf("%sConnected to KV server at %s%s\n\n", blue, serverAddr, reset)
-
 	fmt.Println(green + "Available operations:" + reset)
 	fmt.Println(yellow + "  GET    " + reset + "- Retrieve a value")
 	fmt.Println(yellow + "  PUT    " + reset + "- Store a new key-value pair")
 	fmt.Println(yellow + "  UPDATE " + reset + "- Modify an existing value")
 	fmt.Println(yellow + "  DELETE " + reset + "- Remove a key")
-
 	fmt.Println(green + "Command formats:" + reset)
 	fmt.Println(red + "  Get:key" + reset)
 	fmt.Println(red + "  Put:key:value" + reset)
 	fmt.Println(red + "  Update:key:oldValue:newValue" + reset)
 	fmt.Println(red + "  Delete:key" + reset)
-}
-
-func handleCommand(kvc client.KVClient, commandStr string) {
-	err := kvc.SendMessage(commandStr)
-	if err != nil {
-		fmt.Printf("Error: %v\n", err)
-		return
-	}
-
-	resp, err := kvc.ReadResponse()
-	if err != nil {
-		fmt.Printf("Error: %v\n", err)
-		return
-	}
-
-	fmt.Printf("Response: %s\n", resp)
+	fmt.Println("Type 'exit' to quit the program")
 }
