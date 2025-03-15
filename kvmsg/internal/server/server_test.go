@@ -86,8 +86,8 @@ func newTestClients(num int, slow bool) []*testClient {
 func (ts *testSystem) startServer(numTries int) error {
 	randGen := rand.New(rand.NewSource(time.Now().Unix()))
 	var err error
-	for i := 0; i < numTries; i++ {
-		ts.server = (ts.store)
+	for range numTries {
+		ts.server = NewWithStore(ts.store)
 		if ts.server == nil {
 			return errors.New("server returned by New() must not be nil")
 		}
