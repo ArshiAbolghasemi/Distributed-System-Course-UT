@@ -36,7 +36,7 @@ type KVServer struct {
 	shutdown           chan struct{}
 }
 
-func NewKVServer() *KVServer {
+func New() *KVServer {
 	return &KVServer{
 		clients:            make(map[int]*Client),
 		nextClientID:       1,
