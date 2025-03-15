@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"strconv"
 
 	"kvmsg/config"
 	"kvmsg/internal/kvstore"
@@ -60,7 +61,7 @@ func (s *KVServer) Start(port int) error {
 		return fmt.Errorf("server already started")
 	}
 
-	addr, err := config.GetServerAddress()
+	addr, err := config.GetServerAddress(strconv.Itoa(port))
 	if err != nil {
 		return err
 	}

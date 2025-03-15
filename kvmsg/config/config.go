@@ -36,13 +36,13 @@ func LoadConfig(filename string) (Config, error) {
 	return c, nil
 }
 
-func GetServerAddress() (string, error) {
+func GetServerAddress(port string) (string, error) {
 	c, err := LoadConfig(config_file_path)
 	if err != nil {
 		return "", err
 	}
 
-	return fmt.Sprintf("%s:%s", c.Server.Host, c.Server.Port), nil
+	return fmt.Sprintf("%s:%s", c.Server.Host, port), nil
 }
 
 func GetServerPort() (string, error) {

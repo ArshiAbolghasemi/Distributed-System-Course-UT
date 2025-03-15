@@ -21,7 +21,11 @@ const (
 )
 
 func main() {
-	serverAddr, err := config.GetServerAddress()
+    port, err := config.GetServerPort()
+    if err != nil {
+        fmt.Printf("Failed to load server port")
+    }
+	serverAddr, err := config.GetServerAddress(port)
 	if err != nil {
 		fmt.Printf("Failed to Load Config: %v", err)
 		os.Exit(1)
