@@ -21,7 +21,7 @@ func main() {
 	port, err := strconv.Atoi(portStr)
 	if err != nil {
 		fmt.Printf("Invalid port format: %v\n", err)
-		os.Exit(0)
+		os.Exit(1)
 	}
 	kvServer := server.New()
 	err = kvServer.Start(port)
