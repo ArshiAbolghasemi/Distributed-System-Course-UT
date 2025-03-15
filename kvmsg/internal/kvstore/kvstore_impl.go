@@ -40,7 +40,7 @@ func (im *impl) Update(key string, oldVal []byte, newVal []byte) {
 	}
 
 	markedIndex := util.FindIndex(valueList, oldVal)
-	if markedIndex != -1 {
+	if markedIndex == -1 {
 		im.Put(key, newVal)
 		return
 	}
