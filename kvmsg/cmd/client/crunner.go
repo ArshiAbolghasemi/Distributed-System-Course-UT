@@ -40,11 +40,9 @@ func main() {
 	signalChan := make(chan os.Signal, 1)
 	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
 	stopChan := make(chan struct{})
-	doneReading := make(chan struct{})
-	doneInput := make(chan struct{})
 
-	go handleRead(kvClient, stopChan, doneReading)
-	go handleClientCommands(kvClient, stopChan, doneInput)
+	go handleRead(kvClient, stopChan)
+	go handleClientCommands(kvClient, stopChan)
 
 	select {
 	case <-signalChan:
@@ -55,23 +53,20 @@ func main() {
 
 	close(stopChan)
 
-	<-doneReading
-	<-doneInput
 	fmt.Println("Closing connection...")
 }
 
-func handleRead(kvClient client.KVClient, stopChan chan struct{}, done chan struct{}) {
+func handleRead(kvClient client.KVClient, stopChan chan struct{}) {
 	for {
 		select {
 		case <-stopChan:
-			done <- struct{}{}
 			return
 		default:
 			resp, err := kvClient.ReadResponse()
 			if err != nil {
 				if strings.Contains(err.Error(), "EOF") || strings.Contains(err.Error(), "closed") {
 					fmt.Printf("\nConnection to server closed\n")
-					done <- struct{}{}
+					stopChan <- struct{}{}
 					return
 				}
 				fmt.Printf("\nError reading from server: %v\n", err)
@@ -82,33 +77,31 @@ func handleRead(kvClient client.KVClient, stopChan chan struct{}, done chan stru
 	}
 }
 
-func handleClientCommands(kvClient client.KVClient, stopChan chan struct{}, done chan struct{}) {
+func handleClientCommands(kvClient client.KVClient, stopChan chan struct{}) {
 	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Print("> ")
 	for scanner.Scan() {
 		select {
 		case <-stopChan:
-			done <- struct{}{}
 			return
 		default:
 			command := scanner.Text()
 			if strings.ToLower(command) == "exit" {
 				fmt.Println("Exiting...")
-				done <- struct{}{}
+				stopChan <- struct{}{}
 				return
 			}
 			err := kvClient.SendMessage(command)
 			if err != nil {
 				fmt.Printf("Error sending message: %v\n", err)
 			}
-			fmt.Print("> ")
 		}
 	}
 	if err := scanner.Err(); err != nil {
 		fmt.Printf("Error reading input: %v\n", err)
 		close(stopChan)
 	}
-	done <- struct{}{}
+    stopChan <- struct{}{}
 }
 
 func greeting(serverAddr string) {
