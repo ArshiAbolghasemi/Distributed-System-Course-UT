@@ -21,10 +21,10 @@ const (
 )
 
 func main() {
-    port, err := config.GetServerPort()
-    if err != nil {
-        fmt.Printf("Failed to load server port")
-    }
+	port, err := config.GetServerPort()
+	if err != nil {
+		fmt.Printf("Failed to load server port")
+	}
 	serverAddr, err := config.GetServerAddress(port)
 	if err != nil {
 		fmt.Printf("Failed to Load Config: %v", err)
