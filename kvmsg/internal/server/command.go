@@ -9,10 +9,10 @@ import (
 type OperationType string
 
 const (
-	OpPut    OperationType = "Put"
-	OpGet    OperationType = "Get"
-	OpDelete OperationType = "Delete"
-	OpUpdate OperationType = "Update"
+	OpPut    OperationType = "PUT"
+	OpGet    OperationType = "GET"
+	OpDelete OperationType = "DELETE"
+	OpUpdate OperationType = "UPDATE"
 )
 
 type Command struct {
