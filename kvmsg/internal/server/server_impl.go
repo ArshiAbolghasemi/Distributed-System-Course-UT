@@ -12,11 +12,11 @@ import (
 )
 
 type Client struct {
-	conn        net.Conn
-	id          int
-	inChan      chan Command
-	outChan     chan []byte
-	done        chan struct{}
+	conn    net.Conn
+	id      int
+	inChan  chan Command
+	outChan chan []byte
+	done    chan struct{}
 }
 
 type KVServer struct {
@@ -70,7 +70,6 @@ func (s *KVServer) Start(port int) error {
 	s.started = true
 	s.closed = false
 
-	
 	go s.handleKVStore()
 
 	go s.manageClients()
@@ -92,7 +91,7 @@ func (s *KVServer) manageClients() {
 				delete(s.clients, clientID)
 				s.activeCount--
 				s.droppedCount++
-				
+
 				close(client.outChan)
 				close(client.done)
 			}
@@ -122,7 +121,7 @@ func (s *KVServer) handleKVStore() {
 			case OpPut:
 				s.kvstore.Put(cmd.key, cmd.value)
 				cmd.respChan <- []byte("OK")
-				
+
 				s.notifyClients(fmt.Sprintf("NOTIFY PUT %s", cmd.key))
 
 			case OpGet:
@@ -137,13 +136,13 @@ func (s *KVServer) handleKVStore() {
 			case OpDelete:
 				s.kvstore.Delete(cmd.key)
 				cmd.respChan <- []byte("OK")
-				
+
 				s.notifyClients(fmt.Sprintf("NOTIFY DELETE %s", cmd.key))
 
 			case OpUpdate:
 				s.kvstore.Update(cmd.key, cmd.oldValue, cmd.value)
 				cmd.respChan <- []byte("OK")
-	
+
 				s.notifyClients(fmt.Sprintf("NOTIFY UPDATE %s", cmd.key))
 			}
 
@@ -241,16 +240,16 @@ func (s *KVServer) processClientCommands(client *Client) {
 		select {
 		case cmd := <-client.inChan:
 			s.opsChan <- cmd
-			
+
 			resp := <-cmd.respChan
 			resp = append(resp, '\n')
-			
+
 			select {
 			case client.outChan <- resp:
 			default:
 				fmt.Printf("Dropped response for client %d: buffer full\n", client.id)
 			}
-			
+
 		case <-client.done:
 			return
 		}
@@ -264,14 +263,14 @@ func (s *KVServer) handleClientWrite(client *Client) {
 			if !ok {
 				return
 			}
-			
+
 			_, err := client.conn.Write(message)
 			if err != nil {
 				fmt.Printf("Error writing to client %d: %v\n", client.id, err)
 				s.removeClientChan <- client.id
 				return
 			}
-			
+
 		case <-client.done:
 			return
 		}

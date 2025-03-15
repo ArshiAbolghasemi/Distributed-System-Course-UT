@@ -26,31 +26,31 @@ type Command struct {
 func ParseCommand(msg []byte) (Command, error) {
 	msg = bytes.TrimSpace(msg)
 	parts := bytes.Split(msg, []byte(":"))
-	
+
 	if len(parts) < 2 {
 		return Command{}, fmt.Errorf("invalid command format: insufficient parts")
 	}
-	
+
 	operationStr := strings.ToUpper(string(parts[0]))
 	operation := OperationType(operationStr)
-	
+
 	key := string(parts[1])
-	
+
 	switch operation {
 	case OpPut:
 		if len(parts) < 3 {
 			return Command{}, fmt.Errorf("PUT command requires a value")
 		}
-        return newPutCommand(key, parts[2]), nil
+		return newPutCommand(key, parts[2]), nil
 	case OpGet:
-        return newGetCommand(key), nil
+		return newGetCommand(key), nil
 	case OpDelete:
-        return newDeleteCommand(key), nil
+		return newDeleteCommand(key), nil
 	case OpUpdate:
 		if len(parts) < 4 {
 			return Command{}, fmt.Errorf("UPDATE command requires newValue and oldValue")
 		}
-        return newUpdateCommand(key, parts[2], parts[3]), nil
+		return newUpdateCommand(key, parts[2], parts[3]), nil
 	default:
 		return Command{}, fmt.Errorf("unknown operation: %s", operationStr)
 	}
