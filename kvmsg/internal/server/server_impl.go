@@ -38,10 +38,14 @@ type KVServer struct {
 }
 
 func New() *KVServer {
-	return &KVServer{
+    return NewWithStore(kvstore.New())
+}
+
+func NewWithStore(store kvstore.KVStore) *KVServer {
+    return &KVServer{
 		clients:            make(map[int]*Client),
 		nextClientID:       1,
-		kvstore:            kvstore.New(),
+		kvstore:            store,
 		opsChan:            make(chan Command),
 		registerClientChan: make(chan *Client),
 		removeClientChan:   make(chan int),
