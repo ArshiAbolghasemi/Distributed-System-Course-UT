@@ -14,6 +14,11 @@ func New() KVStore {
 	}
 }
 
+func CreateWithBackdoor() (KVStore, map[string][]([]byte)) {
+	storage := make(map[string][]([]byte))
+	return &impl{storage}, storage
+}
+
 func (im *impl) Put(key string, value []byte) {
 	im.storage[key] = append(im.storage[key], value)
 }
