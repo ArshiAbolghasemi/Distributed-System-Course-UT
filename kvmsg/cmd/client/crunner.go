@@ -3,12 +3,13 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"kvmsg/config"
-	"kvmsg/internal/client"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
+
+	"kvmsg/config"
+	"kvmsg/internal/client"
 )
 
 const (
