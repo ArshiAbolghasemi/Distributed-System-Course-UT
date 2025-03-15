@@ -21,30 +21,30 @@ func New() *KVC {
 }
 
 func (c *KVC) Connect(address string) error {
-    protocol, err := config.GetServerProtocol()
-    if err != nil {
-        return err
-    }
+	protocol, err := config.GetServerProtocol()
+	if err != nil {
+		return err
+	}
 	conn, err := net.Dial(protocol, address)
 	if err != nil {
 		return fmt.Errorf("failed to connect: %v", err)
 	}
-	
+
 	c.conn = conn
 	c.reader = bufio.NewReader(conn)
 	return nil
 }
 
-func (c *KVC) SendMessage(message string) error {	
+func (c *KVC) SendMessage(message string) error {
 	if !strings.HasSuffix(message, "\n") {
 		message += "\n"
 	}
-	
+
 	_, err := c.conn.Write([]byte(message))
 	if err != nil {
 		return fmt.Errorf("failed to send message: %v", err)
 	}
-	
+
 	return nil
 }
 
@@ -53,7 +53,7 @@ func (c *KVC) ReadResponse() (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("failed to read response: %v", err)
 	}
-	
+
 	return strings.TrimSpace(response), nil
 }
 

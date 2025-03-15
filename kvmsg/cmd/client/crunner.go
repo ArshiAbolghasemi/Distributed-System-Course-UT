@@ -21,11 +21,11 @@ const (
 )
 
 func main() {
-    serverAddr, err := config.GetServerAddress()
-    if err != nil {
-        fmt.Printf("Failed to Load Config: %v", err)
-        os.Exit(1)
-    }
+	serverAddr, err := config.GetServerAddress()
+	if err != nil {
+		fmt.Printf("Failed to Load Config: %v", err)
+		os.Exit(1)
+	}
 	kvClient := client.New()
 	err = kvClient.Connect(serverAddr)
 	if err != nil {
@@ -34,7 +34,7 @@ func main() {
 	}
 	defer kvClient.Close()
 
-    greeting(serverAddr)
+	greeting(serverAddr)
 
 	signalChan := make(chan os.Signal, 1)
 	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
@@ -49,13 +49,13 @@ func main() {
 				return
 			default:
 				command := scanner.Text()
-				
+
 				if strings.ToLower(command) == "exit" {
 					fmt.Println("Exiting...")
 					close(stopChan)
 					return
 				}
-				
+
 				handleCommand(kvClient, command)
 			}
 		}
@@ -87,17 +87,17 @@ func greeting(serverAddr string) {
 }
 
 func handleCommand(kvc client.KVClient, commandStr string) {
-    err := kvc.SendMessage(commandStr)
-    if err != nil {
-        fmt.Printf("Error: %v\n", err)
-        return
-    }
+	err := kvc.SendMessage(commandStr)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+		return
+	}
 
-    resp, err := kvc.ReadResponse()
-    if err != nil {
-        fmt.Printf("Error: %v\n", err)
-        return
-    }
+	resp, err := kvc.ReadResponse()
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+		return
+	}
 
 	fmt.Printf("Response: %s\n", resp)
 }

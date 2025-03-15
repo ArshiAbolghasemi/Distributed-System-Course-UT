@@ -12,16 +12,16 @@ import (
 )
 
 func main() {
-    portStr, err := config.GetServerPort()
-    if err != nil {
-        fmt.Printf("Failed to load port config: %v", err)
-    }
+	portStr, err := config.GetServerPort()
+	if err != nil {
+		fmt.Printf("Failed to load port config: %v", err)
+	}
 
-    port, err := strconv.Atoi(portStr)
-    if err != nil {
-        fmt.Printf("Invalid port format: %v\n", err)
-        os.Exit(0)
-    }
+	port, err := strconv.Atoi(portStr)
+	if err != nil {
+		fmt.Printf("Invalid port format: %v\n", err)
+		os.Exit(0)
+	}
 	kvServer := server.New()
 	err = kvServer.Start(port)
 	if err != nil {

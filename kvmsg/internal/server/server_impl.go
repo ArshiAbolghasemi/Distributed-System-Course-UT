@@ -56,14 +56,14 @@ func (s *KVServer) Start(port int) error {
 		return fmt.Errorf("server already started")
 	}
 
-    addr, err := config.GetServerAddress()
-    if err != nil {
-        return err
-    }
-    protocol, err := config.GetServerProtocol()
-    if err != nil {
-        return err
-    }
+	addr, err := config.GetServerAddress()
+	if err != nil {
+		return err
+	}
+	protocol, err := config.GetServerProtocol()
+	if err != nil {
+		return err
+	}
 	listener, err := net.Listen(protocol, addr)
 	if err != nil {
 		return err
@@ -179,7 +179,7 @@ func (s *KVServer) acceptConnections() {
 			}
 		}
 
-        chanBufLimit, err := config.GetClientChanBufLimit()
+		chanBufLimit, err := config.GetClientChanBufLimit()
 		if err != nil {
 			select {
 			case <-s.shutdown:
