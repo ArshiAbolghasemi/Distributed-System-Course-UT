@@ -41,7 +41,7 @@ func main() {
 	stopChan := make(chan struct{})
 	doneReading := make(chan struct{})
 	doneInput := make(chan struct{})
-	
+
 	go handleRead(kvClient, stopChan, doneReading)
 	go handleClientCommands(kvClient, stopChan, doneInput)
 
@@ -49,10 +49,10 @@ func main() {
 	case <-signalChan:
 		fmt.Println("\nReceived shutdown signal")
 	case <-stopChan:
-        fmt.Println("Stopping on request...")
+		fmt.Println("Stopping on request...")
 	}
 
-    close(stopChan)
+	close(stopChan)
 
 	<-doneReading
 	<-doneInput

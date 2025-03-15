@@ -15,7 +15,7 @@ func main() {
 	portStr, err := config.GetServerPort()
 	if err != nil {
 		fmt.Printf("Failed to load port config: %v\n", err)
-        os.Exit(1)
+		os.Exit(1)
 	}
 
 	port, err := strconv.Atoi(portStr)
