@@ -76,7 +76,7 @@ func handleRead(kvClient client.KVClient, stopChan chan struct{}) {
 				fmt.Printf("\nError reading from server: %v\n", err)
 				continue
 			}
-			fmt.Printf("\nServer: %s\n> ", resp)
+			fmt.Printf("Server: %s\n> ", resp)
 		}
 	}
 }
