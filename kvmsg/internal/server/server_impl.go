@@ -14,14 +14,15 @@ import (
 type Client struct {
 	conn        net.Conn
 	id          int
-	messageChan chan []byte
+	inChan      chan Command
+	outChan     chan []byte
 	done        chan struct{}
 }
 
 type KVServer struct {
 	listener           net.Listener
 	port               int
-    kvstore            kvstore.KVStore
+	kvstore            kvstore.KVStore
 	started            bool
 	closed             bool
 	clients            map[int]*Client
@@ -40,12 +41,12 @@ func New() *KVServer {
 	return &KVServer{
 		clients:            make(map[int]*Client),
 		nextClientID:       1,
-        kvstore:            kvstore.New(),
+		kvstore:            kvstore.New(),
 		opsChan:            make(chan Command),
 		registerClientChan: make(chan *Client),
 		removeClientChan:   make(chan int),
-		countChan:          make(chan chan int, 500),
-		droppedChan:        make(chan chan int, 500),
+		countChan:          make(chan chan int),
+		droppedChan:        make(chan chan int),
 		shutdown:           make(chan struct{}),
 	}
 }
@@ -55,10 +56,10 @@ func (s *KVServer) Start(port int) error {
 		return fmt.Errorf("server already started")
 	}
 
-    config, err := config.LoadConfig("../../config/config.yml")
-    if err != nil {
-        return err
-    }
+	config, err := config.LoadConfig("../../config/config.yml")
+	if err != nil {
+		return err
+	}
 	listener, err := net.Listen(config.Server.Protocol, config.GetServerAddress())
 	if err != nil {
 		return err
@@ -67,15 +68,13 @@ func (s *KVServer) Start(port int) error {
 	s.listener = listener
 	s.port = port
 	s.started = true
-    s.closed = false
+	s.closed = false
 
-	// Start KV store handler
+	
 	go s.handleKVStore()
 
-	// Start client manager
 	go s.manageClients()
 
-	// Accept connections
 	go s.acceptConnections()
 
 	return nil
@@ -89,10 +88,13 @@ func (s *KVServer) manageClients() {
 			s.activeCount++
 
 		case clientID := <-s.removeClientChan:
-			if _, exists := s.clients[clientID]; exists {
+			if client, exists := s.clients[clientID]; exists {
 				delete(s.clients, clientID)
 				s.activeCount--
 				s.droppedCount++
+				
+				close(client.outChan)
+				close(client.done)
 			}
 
 		case respChan := <-s.countChan:
@@ -103,7 +105,7 @@ func (s *KVServer) manageClients() {
 
 		case <-s.shutdown:
 			for _, client := range s.clients {
-				close(client.messageChan)
+				close(client.outChan)
 				client.conn.Close()
 				close(client.done)
 			}
@@ -120,6 +122,8 @@ func (s *KVServer) handleKVStore() {
 			case OpPut:
 				s.kvstore.Put(cmd.key, cmd.value)
 				cmd.respChan <- []byte("OK")
+				
+				s.notifyClients(fmt.Sprintf("NOTIFY PUT %s", cmd.key))
 
 			case OpGet:
 				values := s.kvstore.Get(cmd.key)
@@ -133,14 +137,28 @@ func (s *KVServer) handleKVStore() {
 			case OpDelete:
 				s.kvstore.Delete(cmd.key)
 				cmd.respChan <- []byte("OK")
+				
+				s.notifyClients(fmt.Sprintf("NOTIFY DELETE %s", cmd.key))
 
 			case OpUpdate:
 				s.kvstore.Update(cmd.key, cmd.oldValue, cmd.value)
 				cmd.respChan <- []byte("OK")
+	
+				s.notifyClients(fmt.Sprintf("NOTIFY UPDATE %s", cmd.key))
 			}
 
 		case <-s.shutdown:
 			return
+		}
+	}
+}
+
+func (s *KVServer) notifyClients(notification string) {
+	for id, client := range s.clients {
+		select {
+		case client.outChan <- []byte(notification + "\n"):
+		default:
+			fmt.Printf("Failed to notify msg %s to client %d: buffer full\n", notification, id)
 		}
 	}
 }
@@ -158,34 +176,34 @@ func (s *KVServer) acceptConnections() {
 			}
 		}
 
-        config, err := config.LoadConfig("../../config/config.yml")
-        if err != nil {
-            select {
+		config, err := config.LoadConfig("../../config/config.yml")
+		if err != nil {
+			select {
 			case <-s.shutdown:
 				return
 			default:
 				fmt.Printf("%v\n", err)
 				continue
 			}
-        }
+		}
 
 		client := &Client{
-			conn:        conn,
-			id:          s.nextClientID,
-			messageChan: make(chan []byte, config.Client.ChannelBufferLimit),
-			done:        make(chan struct{}),
+			conn:    conn,
+			id:      s.nextClientID,
+			inChan:  make(chan Command),
+			outChan: make(chan []byte, config.Client.ChannelBufferLimit),
+			done:    make(chan struct{}),
 		}
 		s.nextClientID++
 
 		s.registerClientChan <- client
 
-		// Handle client in goroutines
 		go s.handleClientRead(client)
 		go s.handleClientWrite(client)
+		go s.processClientCommands(client)
 	}
 }
 
-// handleClientRead reads messages from the client
 func (s *KVServer) handleClientRead(client *Client) {
 	reader := bufio.NewReader(client.conn)
 
@@ -196,37 +214,64 @@ func (s *KVServer) handleClientRead(client *Client) {
 				fmt.Printf("Error reading from client %d: %v\n", client.id, err)
 			}
 			s.removeClientChan <- client.id
-			close(client.done)
 			return
 		}
 
-        cmd, err := ParseCommand(message)
-        s.opsChan <- cmd
-
-		resp := <-cmd.respChan
-		resp = append(resp, '\n')
+		cmd, err := ParseCommand(message)
+		if err != nil {
+			errMsg := fmt.Sprintf("Error: %v\n", err)
+			select {
+			case client.outChan <- []byte(errMsg):
+			default:
+				fmt.Printf("Dropped error message for client %d: buffer full\n", client.id)
+			}
+			continue
+		}
 
 		select {
-		case client.messageChan <- resp:
-			// Message sent to client's buffer
-		default:
-			// Buffer full, drop message
-			fmt.Printf("Dropped message for client %d: buffer full\n", client.id)
+		case client.inChan <- cmd:
+		case <-client.done:
+			return
 		}
 	}
 }
 
-// handleClientWrite writes messages to the client
+func (s *KVServer) processClientCommands(client *Client) {
+	for {
+		select {
+		case cmd := <-client.inChan:
+			s.opsChan <- cmd
+			
+			resp := <-cmd.respChan
+			resp = append(resp, '\n')
+			
+			select {
+			case client.outChan <- resp:
+			default:
+				fmt.Printf("Dropped response for client %d: buffer full\n", client.id)
+			}
+			
+		case <-client.done:
+			return
+		}
+	}
+}
+
 func (s *KVServer) handleClientWrite(client *Client) {
 	for {
 		select {
-		case message := <-client.messageChan:
+		case message, ok := <-client.outChan:
+			if !ok {
+				return
+			}
+			
 			_, err := client.conn.Write(message)
 			if err != nil {
 				fmt.Printf("Error writing to client %d: %v\n", client.id, err)
 				s.removeClientChan <- client.id
 				return
 			}
+			
 		case <-client.done:
 			return
 		}
@@ -251,7 +296,7 @@ func (s *KVServer) Close() {
 	}
 
 	s.closed = true
-    s.started = false
+	s.started = false
 
 	close(s.shutdown)
 
