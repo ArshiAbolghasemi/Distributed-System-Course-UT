@@ -21,11 +21,11 @@ func New() *KVC {
 }
 
 func (c *KVC) Connect(address string) error {
-    config, err := config.LoadConfig("../../config/config.yml")
+    protocol, err := config.GetServerProtocol()
     if err != nil {
         return err
     }
-	conn, err := net.Dial(config.Server.Protocol, address)
+	conn, err := net.Dial(protocol, address)
 	if err != nil {
 		return fmt.Errorf("failed to connect: %v", err)
 	}

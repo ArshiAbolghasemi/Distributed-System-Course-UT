@@ -56,11 +56,15 @@ func (s *KVServer) Start(port int) error {
 		return fmt.Errorf("server already started")
 	}
 
-	config, err := config.LoadConfig("../../config/config.yml")
-	if err != nil {
-		return err
-	}
-	listener, err := net.Listen(config.Server.Protocol, config.GetServerAddress())
+    addr, err := config.GetServerAddress()
+    if err != nil {
+        return err
+    }
+    protocol, err := config.GetServerProtocol()
+    if err != nil {
+        return err
+    }
+	listener, err := net.Listen(protocol, addr)
 	if err != nil {
 		return err
 	}
@@ -175,7 +179,7 @@ func (s *KVServer) acceptConnections() {
 			}
 		}
 
-		config, err := config.LoadConfig("../../config/config.yml")
+        chanBufLimit, err := config.GetClientChanBufLimit()
 		if err != nil {
 			select {
 			case <-s.shutdown:
@@ -190,7 +194,7 @@ func (s *KVServer) acceptConnections() {
 			conn:    conn,
 			id:      s.nextClientID,
 			inChan:  make(chan Command),
-			outChan: make(chan []byte, config.Client.ChannelBufferLimit),
+			outChan: make(chan []byte, chanBufLimit),
 			done:    make(chan struct{}),
 		}
 		s.nextClientID++
