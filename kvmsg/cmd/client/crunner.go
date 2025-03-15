@@ -80,10 +80,10 @@ func greeting(serverAddr string) {
 	fmt.Println(yellow + "  DELETE " + reset + "- Remove a key")
 
 	fmt.Println(green + "Command formats:" + reset)
-	fmt.Println(red + "  GET:key" + reset)
-	fmt.Println(red + "  PUT:key:value" + reset)
-	fmt.Println(red + "  UPDATE:key:oldValue:newValue" + reset)
-	fmt.Println(red + "  DELETE:key" + reset)
+	fmt.Println(red + "  Get:key" + reset)
+	fmt.Println(red + "  Put:key:value" + reset)
+	fmt.Println(red + "  Update:key:oldValue:newValue" + reset)
+	fmt.Println(red + "  Delete:key" + reset)
 }
 
 func handleCommand(kvc client.KVClient, commandStr string) {
