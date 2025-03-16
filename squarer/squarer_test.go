@@ -80,9 +80,9 @@ func TestConcurrentProcessing(t *testing.T) {
 	}()
 
     for i := 1; i <= count; i++ {
-        go func() {
+        go func(val int) {
             input <- i
-        }()
+        }(i)
     }
 	
 	timeoutChan := time.After(time.Duration(timeoutMillis) * time.Millisecond)
