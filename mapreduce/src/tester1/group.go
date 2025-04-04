@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"sync"
 
-	"6.5840/labrpc"
+	"mapreduce/labrpc"
 )
 
 type Tgid int

@@ -8,7 +8,7 @@ import (
 	"slices"
 	"testing"
 
-	"6.5840/tester1"
+	tester "mapreduce/tester1"
 )
 
 type Tshid int

@@ -4,7 +4,7 @@ import (
 	//"log"
 	"sync"
 
-	"6.5840/labrpc"
+	"mapreduce/labrpc"
 )
 
 type Server struct {

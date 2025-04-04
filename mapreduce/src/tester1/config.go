@@ -4,10 +4,12 @@ import (
 	crand "crypto/rand"
 	"encoding/base64"
 	"fmt"
+
 	//"log"
 	"math/big"
 	"math/rand"
 	"runtime"
+
 	// "runtime/debug"
 	"strings"
 	"sync"
@@ -15,7 +17,7 @@ import (
 	"testing"
 	"time"
 
-	"6.5840/labrpc"
+	"mapreduce/labrpc"
 )
 
 const GRP0 = 0

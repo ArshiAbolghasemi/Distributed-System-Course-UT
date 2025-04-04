@@ -4,9 +4,9 @@ import (
 	"log"
 	"sync"
 
-	"6.5840/kvsrv1/rpc"
-	"6.5840/labrpc"
-	"6.5840/tester1"
+	"mapreduce/kvsrv1/rpc"
+	"mapreduce/labrpc"
+	tester "mapreduce/tester1"
 )
 
 const Debug = false

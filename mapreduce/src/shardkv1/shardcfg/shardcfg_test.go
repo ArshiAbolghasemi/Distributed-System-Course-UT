@@ -1,9 +1,8 @@
 package shardcfg
 
 import (
+	tester "mapreduce/tester1"
 	"testing"
-
-	"6.5840/tester1"
 )
 
 func check_same_config(t *testing.T, c1 ShardConfig, c2 ShardConfig) {

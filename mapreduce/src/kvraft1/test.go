@@ -3,9 +3,9 @@ package kvraft
 import (
 	"testing"
 
-	"6.5840/kvtest1"
-	"6.5840/labrpc"
-	"6.5840/tester1"
+	kvtest "mapreduce/kvtest1"
+	"mapreduce/labrpc"
+	tester "mapreduce/tester1"
 )
 
 type Test struct {

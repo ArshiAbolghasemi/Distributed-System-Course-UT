@@ -1,15 +1,16 @@
 package tester
 
 import (
-	"sync"
+	"fmt"
+	models "mapreduce/models1"
 	"os"
 	"os/signal"
-	"fmt"
-	"time"
-	"strings"
 	"slices"
+	"strings"
+	"sync"
+	"time"
+
 	"github.com/anishathalye/porcupine"
-	"6.5840/models1"
 )
 
 ///

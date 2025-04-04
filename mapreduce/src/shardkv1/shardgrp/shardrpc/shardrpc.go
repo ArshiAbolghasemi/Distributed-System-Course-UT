@@ -1,8 +1,8 @@
 package shardrpc
 
 import (
-	"6.5840/kvsrv1/rpc"
-	"6.5840/shardkv1/shardcfg"
+	"mapreduce/kvsrv1/rpc"
+	"mapreduce/shardkv1/shardcfg"
 )
 
 // Same as Put in kvsrv1/rpc, but with a configuration number

@@ -6,10 +6,9 @@ import (
 	"testing"
 	"time"
 
-	"6.5840/kvsrv1/rpc"
-	"6.5840/labrpc"
-	"6.5840/raftapi"
-	"6.5840/tester1"
+	"mapreduce/kvsrv1/rpc"
+	"mapreduce/labrpc"
+	"mapreduce/raftapi"
 )
 
 type Test struct {

@@ -3,13 +3,12 @@ package shardgrp
 import (
 	"sync/atomic"
 
-
-	"6.5840/kvraft1/rsm"
-	"6.5840/kvsrv1/rpc"
-	"6.5840/labgob"
-	"6.5840/labrpc"
-	"6.5840/shardkv1/shardgrp/shardrpc"
-	"6.5840/tester1"
+	"mapreduce/kvraft1/rsm"
+	"mapreduce/kvsrv1/rpc"
+	"mapreduce/labgob"
+	"mapreduce/labrpc"
+	"mapreduce/shardkv1/shardgrp/shardrpc"
+	tester "mapreduce/tester1"
 )
 
 

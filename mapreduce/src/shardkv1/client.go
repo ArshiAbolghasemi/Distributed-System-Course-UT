@@ -9,11 +9,10 @@ package shardkv
 //
 
 import (
-
-	"6.5840/kvsrv1/rpc"
-	"6.5840/kvtest1"
-	"6.5840/shardkv1/shardctrler"
-	"6.5840/tester1"
+	"mapreduce/kvsrv1/rpc"
+	kvtest "mapreduce/kvtest1"
+	"mapreduce/shardkv1/shardctrler"
+	tester "mapreduce/tester1"
 )
 
 type Clerk struct {

@@ -5,16 +5,11 @@ package shardctrler
 //
 
 import (
-
 	"sync/atomic"
 
-	"6.5840/kvsrv1/rpc"
-	"6.5840/kvtest1"
-	"6.5840/shardkv1/kvsrv1"
-	"6.5840/shardkv1/shardcfg"
-	"6.5840/tester1"
+	"mapreduce/kvsrv1/rpc"
+	"mapreduce/shardkv1/shardcfg"
 )
-
 
 // ShardCtrler for the controller and kv clerk.
 type ShardCtrler struct {

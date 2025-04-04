@@ -9,16 +9,16 @@ import (
 	"testing"
 	"time"
 
-	"6.5840/kvraft1/rsm"
-	"6.5840/kvsrv1/rpc"
-	"6.5840/kvtest1"
-	"6.5840/labrpc"
-	"6.5840/shardkv1/kvsrv1"
-	"6.5840/shardkv1/shardcfg"
-	"6.5840/shardkv1/shardctrler"
-	"6.5840/shardkv1/shardctrler/param"
-	"6.5840/shardkv1/shardgrp"
-	"6.5840/tester1"
+	"mapreduce/kvraft1/rsm"
+	"mapreduce/kvsrv1/rpc"
+	kvtest "mapreduce/kvtest1"
+	"mapreduce/labrpc"
+	kvsrv "mapreduce/shardkv1/kvsrv1"
+	"mapreduce/shardkv1/shardcfg"
+	"mapreduce/shardkv1/shardctrler"
+	"mapreduce/shardkv1/shardctrler/param"
+	"mapreduce/shardkv1/shardgrp"
+	tester "mapreduce/tester1"
 )
 
 type Test struct {

@@ -1,7 +1,7 @@
 package lock
 
 import (
-	"6.5840/kvtest1"
+	kvtest "mapreduce/kvtest1"
 )
 
 type Lock struct {

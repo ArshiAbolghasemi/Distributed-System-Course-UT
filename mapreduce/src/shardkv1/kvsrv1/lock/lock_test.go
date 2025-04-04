@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"6.5840/kvsrv1"
-	"6.5840/kvsrv1/rpc"
-	"6.5840/kvtest1"
+	kvsrv "mapreduce/kvsrv1"
+	"mapreduce/kvsrv1/rpc"
+	kvtest "mapreduce/kvtest1"
 )
 
 const (
