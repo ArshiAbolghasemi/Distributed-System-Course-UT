@@ -6,7 +6,6 @@ import (
 	tester "mapreduce/tester1"
 )
 
-
 type Clerk struct {
 	clnt   *tester.Clnt
 	server string

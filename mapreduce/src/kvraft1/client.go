@@ -6,7 +6,6 @@ import (
 	kvtest "mapreduce/kvtest1"
 )
 
-
 type Clerk struct {
 	clnt    *tester.Clnt
 	servers []string

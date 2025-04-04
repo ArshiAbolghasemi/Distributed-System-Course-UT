@@ -11,7 +11,6 @@ import (
 	tester "mapreduce/tester1"
 )
 
-
 type KVServer struct {
 	gid    tester.Tgid
 	me     int
@@ -21,12 +20,10 @@ type KVServer struct {
 
 }
 
-
 func (kv *KVServer) DoOp(req any) any {
 	// Your code here
 	return nil
 }
-
 
 func (kv *KVServer) Snapshot() []byte {
 	// Your code here

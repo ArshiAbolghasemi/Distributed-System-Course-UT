@@ -76,10 +76,8 @@ func (sck *ShardCtrler) isKilled() bool {
 	return z == 1
 }
 
-
 // Return the current configuration and its version number
 func (sck *ShardCtrler) Query() (*shardcfg.ShardConfig, rpc.Tversion) {
 	// Your code here.
 	return nil, 0
 }
-

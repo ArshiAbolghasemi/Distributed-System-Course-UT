@@ -881,7 +881,6 @@ func TestPersist33C(t *testing.T) {
 	ts.restart((leader + 0) % servers)
 	tester.AnnotateRestart([]int{(leader + 0) % servers})
 
-
 	ts.one(103, 2, true)
 
 	ts.restart((leader + 1) % servers)

@@ -17,7 +17,6 @@ const (
 
 var useRaftStateMachine bool // to plug in another raft besided raft1
 
-
 type rfsrv struct {
 	ts          *Test
 	me          int

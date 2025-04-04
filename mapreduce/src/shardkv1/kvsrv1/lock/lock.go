@@ -4,10 +4,8 @@ import (
 	kvsrv "mapreduce/shardkv1/kvsrv1"
 )
 
-
 type Lock struct {
 	ck *kvsrv.Clerk
-
 }
 
 // Use l as the key to store the "lock state" (you would have to decide
@@ -17,7 +15,6 @@ func MakeLock(ck kvtest.IKVClerk, l string) *Lock {
 	// You may add code here
 	return lk
 }
-
 
 func (lk *Lock) Acquire() {
 	// You may add code here.
