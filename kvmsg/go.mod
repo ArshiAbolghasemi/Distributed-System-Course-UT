@@ -1,6 +1,6 @@
 module kvmsg
 
-go 1.24.1
+go 1.24
 
 require github.com/spf13/viper v1.19.0
 
