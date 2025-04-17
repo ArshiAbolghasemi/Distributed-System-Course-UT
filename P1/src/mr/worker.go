@@ -1,6 +1,7 @@
 package mr
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"hash/fnv"
@@ -82,6 +83,7 @@ func Worker(mapf func(string, string) []KeyValue,
 }
 
 func doMapTask(taskNumber int, filename string, nReduce int, mapf func(string, string) []KeyValue) {
+	// Read input file
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		log.Fatalf("doMapTask: unable to read file %v: %v", filename, err)
@@ -91,6 +93,7 @@ func doMapTask(taskNumber int, filename string, nReduce int, mapf func(string, s
 
 	encoders := make([]*json.Encoder, nReduce)
 	files := make([]*os.File, nReduce)
+	writers := make([]*bufio.Writer, nReduce)
 	for i := 0; i < nReduce; i++ {
 		oname := reduceName(taskNumber, i)
 		f, err := os.Create(oname)
@@ -98,7 +101,9 @@ func doMapTask(taskNumber int, filename string, nReduce int, mapf func(string, s
 			log.Fatalf("doMapTask: cannot create file %v: %v", oname, err)
 		}
 		files[i] = f
-		encoders[i] = json.NewEncoder(f)
+		bufw := bufio.NewWriter(f)
+		writers[i] = bufw
+		encoders[i] = json.NewEncoder(bufw)
 	}
 
 	for _, kv := range kva {
@@ -110,6 +115,7 @@ func doMapTask(taskNumber int, filename string, nReduce int, mapf func(string, s
 	}
 
 	for i := 0; i < nReduce; i++ {
+		writers[i].Flush()
 		files[i].Close()
 	}
 }
