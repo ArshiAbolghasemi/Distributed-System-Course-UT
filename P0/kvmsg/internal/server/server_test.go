@@ -175,7 +175,7 @@ func (ts *testSystem) startWriting(writeChan chan<- *networkEvent, numMsgs int,
 		cli := cli
 		go func() {
 			// Client and message IDs guarantee that msgs sent over the network are unique.
-            for msgID := range numMsgs {
+			for msgID := range numMsgs {
 
 				// Notify the test runner that a message should be written to the network.
 				writeChan <- &networkEvent{
