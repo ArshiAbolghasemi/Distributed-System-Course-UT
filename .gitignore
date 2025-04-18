@@ -36,5 +36,6 @@ go.work.sum
 *.swo
 
 mr-out*
+mr-[0-9]*-[0-9]*.json
 *.so
 
