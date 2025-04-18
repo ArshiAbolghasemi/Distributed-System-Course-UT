@@ -49,4 +49,8 @@ clean:
 help:
 	@echo "Available targets:"	
 	@echo "  run-sequential  - Run sequential MapReduce with specified app (make run-sequential APP=wc)"	
-	@echo "  clean           - Remove generated files"	
+	@echo "  clean           - Remove generated files"
+	@echo "  run-coordinator - Run MapReduce coordinator"
+	@echo "  run-wroker      - Run worker MapReduce with specified app (make run-worker APP=wc)"
+	@echo "  test            - run tests"
+	@echo "  clean           - clean redundant files"
