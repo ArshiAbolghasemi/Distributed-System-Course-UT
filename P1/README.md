@@ -41,7 +41,44 @@ In this system, one Coordinator process is initialized first, followed by one or
 
 ## Implementation Details
 
-The implementation should focus on:
+### mrsequential.go
+This file implements a sequential (non-distributed) version of MapReduce for testing and comparison:
+- Loads Map/Reduce functions from a plugin
+- Processes all input files through the Map function
+- Collects and sorts all intermediate key-value pairs
+- Applies the Reduce function to each unique key
+- Outputs results to a single file
+
+### mrworker.go
+Entry point for worker processes:
+- Loads Map/Reduce functions from a plugin
+- Initiates the Worker process
+
+### mrcoordinator.go
+Entry point for the coordinator process:
+- Creates a coordinator with input files and reduce tasks
+- Monitors until all work is complete
+
+### worker.go
+Implements the worker's main loop and task processing:
+- Continuously requests tasks via RPC
+- Processes Map tasks by reading input, applying the Map function, and partitioning output
+- Processes Reduce tasks by collecting data, sorting by key, and applying the Reduce function
+- Reports task completion back to the coordinator
+
+### rpc.go
+Defines data structures for RPC communication:
+- Task types (Map, Reduce, Wait, Exit)
+- Request/response structures for task assignment and completion reporting
+
+### coordinator.go
+Implements the coordinator that manages task distribution:
+- Tracks the status of all tasks
+- Assigns tasks to workers, prioritizing Map before Reduce
+- Handles failures by reassigning tasks that take too long
+- Determines when all work is complete
+
+The implementation focuses on:
 - Robust RPC-based communication between Coordinator and Workers
 - Efficient task distribution and load balancing
 - Proper handling of task failures and timeouts
