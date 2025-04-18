@@ -1,33 +1,52 @@
-# This is the Makefile helping you submit the labs.
-# Submit your lab with the following command:
-#     $ make [lab1|lab2|lab3a|lab3b|lab3c|lab3d|lab4a|lab4b|lab4c|lab5a|lab5b|lab5c]
+SRC_MAIN_DIR = ./src/main
+SRC_MRAPPS_DIR = ./src/mrapps
 
-LABS=" lab1 lab2 lab3a lab3b lab3c lab3d lab4a lab4b lab4c lab5a lab5b lab5c "
+APPS = wc indexer crash nocrash rtiming mtiming jobcount early_exit
 
-%: check-%
-	@echo "Preparing $@-handin.tar.gz"
-	@if echo $(LABS) | grep -q " $@ " ; then \
-		echo "Tarring up your submission..." ; \
-		COPYFILE_DISABLE=1 tar cvzf $@-handin.tar.gz \
-			"--exclude=src/main/pg-*.txt" \
-			"--exclude=src/main/diskvd" \
-			"--exclude=src/mapreduce/824-mrinput-*.txt" \
-			"--exclude=src/mapreduce/5840-mrinput-*.txt" \
-			"--exclude=src/main/mr-*" \
-			"--exclude=mrtmp.*" \
-			"--exclude=src/main/diff.out" \
-			"--exclude=src/main/mrcoordinator" \
-			"--exclude=src/main/mrsequential" \
-			"--exclude=src/main/mrworker" \
-			"--exclude=*.so" \
-			Makefile src; \
-		if test `stat -c "%s" "$@-handin.tar.gz" 2>/dev/null || stat -f "%z" "$@-handin.tar.gz"` -ge 20971520 ; then echo "File exceeds 20MB."; rm $@-handin.tar.gz; exit; fi; \
-		echo "$@-handin.tar.gz successfully created. Please upload the tarball manually on Gradescope."; \
-	else \
-		echo "Bad target $@. Usage: make [$(LABS)]"; \
+.PHONY: clean build-run run-sequential
+
+$(APPS):
+	@echo "Building $@.so plugin..."
+	cd $(SRC_MAIN_DIR) && go build -buildmode=plugin ../mrapps/$@.go
+	@echo "$@.so built successfully"
+
+run-sequential:
+	@if [ -z "$(APP)" ]; then \
+		echo "Please specify an application. Usage: make run-sequential APP=wc"; \
+		exit 1; \
 	fi
+	@echo "Running sequential MapReduce with $(APP)..."
+	cd $(SRC_MAIN_DIR) && rm -f mr-out*
+	cd $(SRC_MAIN_DIR) && go run mrsequential.go $(APP).so pg-*.txt
+	@echo "Output available in $(SRC_MAIN_DIR)/mr-out-0"
+	cd $(SRC_MAIN_DIR) && more mr-out-0
 
-.PHONY: check-%
-check-%:
-	@echo "Checking that your submission builds correctly..."
-	@./.check-build git://g.csail.mit.edu/mapreduce-golabs-2025 $(patsubst check-%,%,$@)
+run-coordinator:
+	cd $(SRC_MAIN_DIR) && rm -f mr-out*
+	cd $(SRC_MAIN_DIR) && go run mrcoordinator.go pg-*.txt
+
+run-worker:
+	@if [ -z "$(APP)" ]; then \
+		echo "Please specify an application. Usage: make run-sequential APP=wc"; \
+		exit 1; \
+	fi
+	@echo "Running worker MapReduce woth $(APP)..."
+	cd $(SRC_MAIN_DIR) && go run mrworker.go $(APP).so
+	@echo "Output available in $(SRC_MAIN_DIR)/mr-out-*"
+	cd $(SRC_MAIN_DIR) && cat mr-out-* | sort | more
+
+test:
+	cd $(SRC_MAIN_DIR) && ./test-mr.sh
+	$(MAKE) clean
+
+clean:
+	@echo "Cleaning up..."
+	@cd $(SRC_MAIN_DIR) && rm -f mr-out* *.so && rm -f mr-[0-9]*-[0-9]*.json && rm -rf mr-tmp && \
+		rm -f mrcoordinator && rm -f mrworker && rm -f mrsequential
+	@cd $(SRC_MRAPPS_DIR) && rm -f *.so
+	@echo "Clean complete"
+
+help:
+	@echo "Available targets:"	
+	@echo "  run-sequential  - Run sequential MapReduce with specified app (make run-sequential APP=wc)"	
+	@echo "  clean           - Remove generated files"	
