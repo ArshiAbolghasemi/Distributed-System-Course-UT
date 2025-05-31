@@ -37,16 +37,12 @@ func MakeLock(ck kvtest.IKVClerk, l string) *Lock {
 	return lk
 }
 
-func wait() {
-	time.Sleep(100 * time.Millisecond)
-}
-
 // ensure the lockKey is initialized on the server
 func (lk *Lock) init() {
 	for {
 		err := lk.ck.Put(lk.lockKey, unlockedState, 0)
 		if err == rpc.ErrMaybe {
-			wait()
+			time.Sleep(100 * time.Millisecond)
 			continue
 		} else {
 			break
@@ -77,7 +73,7 @@ func (lk *Lock) Acquire() {
 		if lockState == unlockedState {
 			lk.ck.Put(lk.lockKey, lk.clientId, version)
 		}
-		wait()
+		time.Sleep(100 * time.Millisecond)
 	}
 }
 
@@ -96,7 +92,7 @@ func (lk *Lock) Release() {
 		if lockState != lk.clientId {
 			break
 		} else {
-			wait()
+			time.Sleep(100 * time.Millisecond)
 		}
 	}
 }

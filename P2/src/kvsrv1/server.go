@@ -57,9 +57,6 @@ func (s *keyValueStore) put(key, value string, version uint64) kvErr {
 }
 
 type KVServer struct {
-	mu sync.Mutex
-
-	// Your definitions here.
 	store keyValueStore
 }
 

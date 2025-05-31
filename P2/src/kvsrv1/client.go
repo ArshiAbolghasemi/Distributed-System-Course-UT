@@ -19,10 +19,6 @@ func MakeClerk(clnt *tester.Clnt, server string) kvtest.IKVClerk {
 	return ck
 }
 
-func (ck *Clerk) wait() {
-	time.Sleep(100 * time.Millisecond)
-}
-
 // Get fetches the current value and version for a key.  It returns
 // ErrNoKey if the key does not exist. It keeps trying forever in the
 // face of all other errors.
@@ -44,7 +40,7 @@ func (ck *Clerk) Get(key string) (string, rpc.Tversion, rpc.Err) {
 		if ok {
 			return reply.Value, reply.Version, reply.Err
 		}
-		ck.wait()
+		time.Sleep(100 * time.Millisecond)
 	}
 }
 
@@ -77,9 +73,8 @@ func (ck *Clerk) Put(key, value string, version rpc.Tversion) rpc.Err {
 		reply := rpc.PutReply{}
 		ok := ck.clnt.Call(ck.server, "KVServer.Put", &args, &reply)
 		if !ok {
-			// we might have successfully put this key into the server but the response was lost
 			maybe = true
-			ck.wait()
+			time.Sleep(100 * time.Millisecond)
 		} else {
 			// if we got `ErrVersion` with maybe, then this is not the first time we send it.
 			// we need to return `ErrMaybe` since we don't know the previous rpc was success or not
