@@ -31,7 +31,7 @@ type rfsrv struct {
 }
 
 func newRfsrv(ts *Test, srv int, ends []*labrpc.ClientEnd, persister *tester.Persister, snapshot bool) *rfsrv {
-	//log.Printf("mksrv %d", srv)
+	// log.Printf("mksrv %d", srv)
 	s := &rfsrv{
 		ts:        ts,
 		me:        srv,
@@ -44,7 +44,7 @@ func newRfsrv(ts *Test, srv int, ends []*labrpc.ClientEnd, persister *tester.Per
 	}
 	if snapshot {
 		snapshot := persister.ReadSnapshot()
-		if snapshot != nil && len(snapshot) > 0 {
+		if len(snapshot) > 0 {
 			// mimic KV server and process snapshot now.
 			// ideally Raft should send it up on applyCh...
 			err := s.ingestSnap(snapshot, -1)
@@ -61,7 +61,7 @@ func newRfsrv(ts *Test, srv int, ends []*labrpc.ClientEnd, persister *tester.Per
 }
 
 func (rs *rfsrv) Kill() {
-	//log.Printf("rs kill %d", rs.me)
+	// log.Printf("rs kill %d", rs.me)
 	rs.mu.Lock()
 	rs.raft = nil // tester will call Kill() on rs.raft
 	rs.mu.Unlock()
@@ -97,11 +97,11 @@ func (rs *rfsrv) Logs(i int) (any, bool) {
 // contents
 func (rs *rfsrv) applier(applyCh chan raftapi.ApplyMsg) {
 	for m := range applyCh {
-		if m.CommandValid == false {
+		if !m.CommandValid {
 			// ignore other types of ApplyMsg
 		} else {
 			err_msg, prevok := rs.ts.checkLogs(rs.me, m)
-			if m.CommandIndex > 1 && prevok == false {
+			if m.CommandIndex > 1 && !prevok {
 				err_msg = fmt.Sprintf("server %v apply out of order %v", rs.me, m.CommandIndex)
 			}
 			if err_msg != "" {
@@ -133,7 +133,7 @@ func (rs *rfsrv) applierSnap(applyCh chan raftapi.ApplyMsg) {
 			if err_msg == "" {
 				var prevok bool
 				err_msg, prevok = rs.ts.checkLogs(rs.me, m)
-				if m.CommandIndex > 1 && prevok == false {
+				if m.CommandIndex > 1 && !prevok {
 					err_msg = fmt.Sprintf("server %v apply out of order %v", rs.me, m.CommandIndex)
 				}
 			}
@@ -150,7 +150,11 @@ func (rs *rfsrv) applierSnap(applyCh chan raftapi.ApplyMsg) {
 				}
 				e.Encode(xlog)
 				start := tester.GetAnnotateTimestamp()
-				rs.raft.Snapshot(m.CommandIndex, w.Bytes())
+				raft := rs.Raft()
+				if raft == nil {
+					return
+				}
+				raft.Snapshot(m.CommandIndex, w.Bytes())
 				details := fmt.Sprintf(
 					"snapshot created after applying the command at index %v",
 					m.CommandIndex)
@@ -195,7 +199,7 @@ func (rs *rfsrv) ingestSnap(snapshot []byte, index int) string {
 		return err
 	}
 	rs.logs = map[int]any{}
-	for j := 0; j < len(xlog); j++ {
+	for j := range xlog {	
 		rs.logs[j] = xlog[j]
 	}
 	rs.lastApplied = lastIncludedIndex

@@ -10,15 +10,14 @@ package raft
 
 import (
 	"fmt"
-
-	tester "github.com/ArshiAbolghasemi/disgo/tester1"
-
 	// "log"
 	"math/rand"
 	"sync"
 	"sync/atomic"
 	"testing"
 	"time"
+
+	tester "github.com/ArshiAbolghasemi/disgo/tester1"
 )
 
 // The tester generously allows solutions to complete elections in one second
@@ -184,7 +183,6 @@ func TestRPCBytes3B(t *testing.T) {
 	if got > expected+50000 {
 		t.Fatalf("too many RPC bytes; got %v, expected %v", got, expected)
 	}
-
 }
 
 // test just failure of followers.
@@ -437,7 +435,7 @@ loop:
 			} else {
 				details := fmt.Sprintf("value %v is not an int", cmd)
 				tester.AnnotateCheckerFailure("read ill-typed value", details)
-				t.Fatalf("%s", details)
+				t.Fatal(details)
 			}
 		}
 
@@ -450,10 +448,10 @@ loop:
 			continue
 		}
 
-		for ii := range iters {
+		for ii := 0; ii < iters; ii++ {
 			x := 100 + ii
 			ok := false
-			for j := range cmds {
+			for j := 0; j < len(cmds); j++ {
 				if cmds[j] == x {
 					ok = true
 				}
@@ -461,7 +459,7 @@ loop:
 			if ok == false {
 				details := fmt.Sprintf("cmd %v missing in %v", x, cmds)
 				tester.AnnotateCheckerFailure("concurrent submission failed", details)
-				t.Fatalf("%s", details)
+				t.Fatal(details)
 			}
 		}
 
@@ -620,7 +618,8 @@ func TestCount3B(t *testing.T) {
 		return
 	}
 
-	leader := ts.checkOneLeader()
+	var leader int
+	ts.checkOneLeader()
 
 	total1 := rpcs()
 
@@ -880,9 +879,9 @@ func TestPersist33C(t *testing.T) {
 	ts.g.ShutdownServer((leader + 1) % servers)
 	tester.AnnotateShutdown([]int{(leader + 0) % servers, (leader + 1) % servers})
 	ts.g.ConnectOne((leader + 2) % servers)
-	tester.AnnotateConnection(ts.g.GetConnected())
 	ts.restart((leader + 0) % servers)
 	tester.AnnotateRestart([]int{(leader + 0) % servers})
+	tester.AnnotateConnection(ts.g.GetConnected())
 
 	ts.one(103, 2, true)
 
@@ -986,7 +985,6 @@ func TestUnreliableAgree3C(t *testing.T) {
 	wg.Wait()
 
 	ts.one(100, servers, true)
-
 }
 
 func TestFigure8Unreliable3C(t *testing.T) {
@@ -1052,7 +1050,6 @@ func TestFigure8Unreliable3C(t *testing.T) {
 }
 
 func internalChurn(t *testing.T, reliable bool) {
-
 	servers := 5
 	ts := makeTest(t, servers, reliable, false)
 	defer ts.cleanup()
@@ -1330,10 +1327,10 @@ func TestSnapshotAllCrash3D(t *testing.T) {
 
 	ts.one(rand.Int(), servers, true)
 
-	for range iters {
+	for i := 0; i < iters; i++ {
 		// perhaps enough to get a snapshot
 		nn := (SnapShotInterval / 2) + (rand.Int() % SnapShotInterval)
-		for range nn {
+		for i := 0; i < nn; i++ {
 			ts.one(rand.Int(), servers, true)
 		}
 
@@ -1349,7 +1346,7 @@ func TestSnapshotAllCrash3D(t *testing.T) {
 		if index2 < index1+1 {
 			msg := fmt.Sprintf("index decreased from %v to %v", index1, index2)
 			tester.AnnotateCheckerFailure("incorrect behavior: index decreased", msg)
-			t.Fatalf("%s", msg)
+			t.Fatal(msg)
 		}
 	}
 }
