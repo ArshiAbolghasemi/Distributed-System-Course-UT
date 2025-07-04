@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"syscall"
 
-	"kvmsg/config"
-	"kvmsg/internal/server"
+	"github.com/ArshiAbolghasemi/kvmsg/config"
+	"github.com/ArshiAbolghasemi/kvmsg/internal/server"
 )
 
 func main() {

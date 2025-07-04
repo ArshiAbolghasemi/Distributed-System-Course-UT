@@ -1,7 +1,7 @@
 package kvstore
 
 import (
-	"kvmsg/util"
+	"github.com/ArshiAbolghasemi/kvmsg/util"
 )
 
 type impl struct {

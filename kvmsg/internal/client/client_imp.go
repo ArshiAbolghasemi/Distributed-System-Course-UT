@@ -3,9 +3,10 @@ package client
 import (
 	"bufio"
 	"fmt"
-	"kvmsg/config"
 	"net"
 	"strings"
+
+	"github.com/ArshiAbolghasemi/kvmsg/config"
 )
 
 type KVC struct {

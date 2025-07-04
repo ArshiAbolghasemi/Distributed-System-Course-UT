@@ -8,8 +8,8 @@ import (
 	"strings"
 	"syscall"
 
-	"kvmsg/config"
-	"kvmsg/internal/client"
+	"github.com/ArshiAbolghasemi/kvmsg/config"
+	"github.com/ArshiAbolghasemi/kvmsg/internal/client"
 )
 
 const (

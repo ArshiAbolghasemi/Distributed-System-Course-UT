@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-const config_file_path = "/Users/arshia/Projects/UT/DistributedSystems/Distributed-System-Course-UT/kvmsg/config/config.yml"
+const config_file_path = "/Users/arshia/Projects/UT/DistributedSystems/Distributed-System-Course-UT/github.com/ArshiAbolghasemi/kvmsg/config/config.yml"
 
 type Config struct {
 	Server struct {

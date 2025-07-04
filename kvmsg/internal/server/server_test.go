@@ -14,7 +14,7 @@ import (
 	"testing"
 	"time"
 
-	"kvmsg/internal/kvstore"
+	"github.com/ArshiAbolghasemi/kvmsg/internal/kvstore"
 )
 
 const (

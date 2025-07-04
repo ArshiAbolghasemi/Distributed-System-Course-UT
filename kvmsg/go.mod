@@ -1,4 +1,4 @@
-module kvmsg
+module github.com/ArshiAbolghasemi/kvmsg
 
 go 1.24
 

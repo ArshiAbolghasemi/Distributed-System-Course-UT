@@ -8,8 +8,8 @@ import (
 	"net"
 	"strconv"
 
-	"kvmsg/config"
-	"kvmsg/internal/kvstore"
+	"github.com/ArshiAbolghasemi/kvmsg/config"
+	"github.com/ArshiAbolghasemi/kvmsg/internal/kvstore"
 )
 
 type Client struct {
