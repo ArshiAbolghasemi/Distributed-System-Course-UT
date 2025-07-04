@@ -149,13 +149,13 @@ func (ts *Test) checkLogs(i int, m raftapi.ApplyMsg) (string, bool) {
 // thinks it is the leader.
 func (ts *Test) checkNoLeader() {
 	tester.AnnotateCheckerBegin("checking no unexpected leader among connected servers")
-	for i := 0; i < ts.n; i++ {
+	for i := range ts.n {
 		if ts.g.IsConnected(i) {
 			_, is_leader := ts.srvs[i].GetState()
 			if is_leader {
 				details := fmt.Sprintf("leader = %v", i)
 				tester.AnnotateCheckerFailure("unexpected leader found", details)
-				ts.Fatalf(details)
+				ts.Fatalf("%s", details)
 			}
 		}
 	}
@@ -196,7 +196,7 @@ func (ts *Test) nCommitted(index int) (int, any) {
 				text := fmt.Sprintf("committed values at index %v do not match (%v != %v)",
 					index, cmd, cmd1)
 				tester.AnnotateCheckerFailure("unmatched committed values", text)
-				ts.Fatalf(text)
+				ts.Fatalf("%s", text)
 			}
 			count += 1
 			cmd = cmd1

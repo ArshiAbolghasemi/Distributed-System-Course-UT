@@ -437,7 +437,7 @@ loop:
 			} else {
 				details := fmt.Sprintf("value %v is not an int", cmd)
 				tester.AnnotateCheckerFailure("read ill-typed value", details)
-				t.Fatalf(details)
+				t.Fatalf("%s", details)
 			}
 		}
 
@@ -450,10 +450,10 @@ loop:
 			continue
 		}
 
-		for ii := 0; ii < iters; ii++ {
+		for ii := range iters {
 			x := 100 + ii
 			ok := false
-			for j := 0; j < len(cmds); j++ {
+			for j := range cmds {
 				if cmds[j] == x {
 					ok = true
 				}
@@ -461,7 +461,7 @@ loop:
 			if ok == false {
 				details := fmt.Sprintf("cmd %v missing in %v", x, cmds)
 				tester.AnnotateCheckerFailure("concurrent submission failed", details)
-				t.Fatalf(details)
+				t.Fatalf("%s", details)
 			}
 		}
 
@@ -1330,10 +1330,10 @@ func TestSnapshotAllCrash3D(t *testing.T) {
 
 	ts.one(rand.Int(), servers, true)
 
-	for i := 0; i < iters; i++ {
+	for range iters {
 		// perhaps enough to get a snapshot
 		nn := (SnapShotInterval / 2) + (rand.Int() % SnapShotInterval)
-		for i := 0; i < nn; i++ {
+		for range nn {
 			ts.one(rand.Int(), servers, true)
 		}
 
@@ -1349,7 +1349,7 @@ func TestSnapshotAllCrash3D(t *testing.T) {
 		if index2 < index1+1 {
 			msg := fmt.Sprintf("index decreased from %v to %v", index1, index2)
 			tester.AnnotateCheckerFailure("incorrect behavior: index decreased", msg)
-			t.Fatalf(msg)
+			t.Fatalf("%s", msg)
 		}
 	}
 }
