@@ -8,7 +8,7 @@ import (
 	"slices"
 	"testing"
 
-	tester "mapreduce/tester1"
+	tester "github.com/ArshiAbolghasemi/disgo/tester1"
 )
 
 type Tshid int

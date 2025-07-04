@@ -5,12 +5,12 @@ import (
 	"testing"
 	"time"
 
-	"mapreduce/kvsrv1/rpc"
-	kvtest "mapreduce/kvtest1"
-	"mapreduce/shardkv1/shardcfg"
-	"mapreduce/shardkv1/shardctrler"
-	"mapreduce/shardkv1/shardctrler/param"
-	tester "mapreduce/tester1"
+	"github.com/ArshiAbolghasemi/disgo/kvsrv1/rpc"
+	kvtest "github.com/ArshiAbolghasemi/disgo/kvtest1"
+	"github.com/ArshiAbolghasemi/disgo/shardkv1/shardcfg"
+	"github.com/ArshiAbolghasemi/disgo/shardkv1/shardctrler"
+	"github.com/ArshiAbolghasemi/disgo/shardkv1/shardctrler/param"
+	tester "github.com/ArshiAbolghasemi/disgo/tester1"
 )
 
 const (

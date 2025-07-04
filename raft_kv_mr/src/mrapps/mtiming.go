@@ -1,7 +1,7 @@
 package main
 
 //
-// a MapReduce pseudo-application to test that workers
+// a github.com/ArshiAbolghasemi/disgo pseudo-application to test that workers
 // execute map tasks in parallel.
 //
 // go build -buildmode=plugin mtiming.go
@@ -10,12 +10,13 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-	"mapreduce/mr"
 	"os"
 	"sort"
 	"strings"
 	"syscall"
 	"time"
+
+	"github.com/ArshiAbolghasemi/disgo/mr"
 )
 
 func nparallel(phase string) int {

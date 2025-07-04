@@ -1,9 +1,9 @@
 package kvsrv
 
 import (
-	"mapreduce/kvsrv1/rpc"
-	kvtest "mapreduce/kvtest1"
-	tester "mapreduce/tester1"
+	"github.com/ArshiAbolghasemi/disgo/kvsrv1/rpc"
+	kvtest "github.com/ArshiAbolghasemi/disgo/kvtest1"
+	tester "github.com/ArshiAbolghasemi/disgo/tester1"
 )
 
 type Clerk struct {

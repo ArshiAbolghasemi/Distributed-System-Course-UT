@@ -1,17 +1,18 @@
 package main
 
 //
-// an indexing application "plugin" for MapReduce.
+// an indexing application "plugin" for github.com/ArshiAbolghasemi/disgo.
 //
 // go build -buildmode=plugin indexer.go
 //
 
 import (
 	"fmt"
-	"mapreduce/mr"
 	"sort"
 	"strings"
 	"unicode"
+
+	"github.com/ArshiAbolghasemi/disgo/mr"
 )
 
 // The mapping function is called once for each piece of the input.

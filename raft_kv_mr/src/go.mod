@@ -1,4 +1,4 @@
-module mapreduce
+module github.com/ArshiAbolghasemi/disgo
 
 go 1.24
 

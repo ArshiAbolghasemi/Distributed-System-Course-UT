@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"sync"
 
-	"mapreduce/labrpc"
+	"github.com/ArshiAbolghasemi/disgo/labrpc"
 )
 
 type Tgid int

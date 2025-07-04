@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"mapreduce/labrpc"
-	"mapreduce/raftapi"
+	"github.com/ArshiAbolghasemi/disgo/labrpc"
+	"github.com/ArshiAbolghasemi/disgo/raftapi"
 )
 
 type Test struct {

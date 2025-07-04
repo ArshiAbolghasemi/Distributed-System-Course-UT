@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	kvsrv "mapreduce/kvsrv1"
-	"mapreduce/kvsrv1/rpc"
-	kvtest "mapreduce/kvtest1"
+	kvsrv "github.com/ArshiAbolghasemi/disgo/kvsrv1"
+	"github.com/ArshiAbolghasemi/disgo/kvsrv1/rpc"
+	kvtest "github.com/ArshiAbolghasemi/disgo/kvtest1"
 )
 
 const (

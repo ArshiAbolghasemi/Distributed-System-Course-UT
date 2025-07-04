@@ -1,22 +1,23 @@
 package main
 
 //
-// a MapReduce pseudo-application that sometimes crashes,
+// a github.com/ArshiAbolghasemi/disgo pseudo-application that sometimes crashes,
 // and sometimes takes a long time,
-// to test MapReduce's ability to recover.
+// to test github.com/ArshiAbolghasemi/disgo's ability to recover.
 //
 // go build -buildmode=plugin crash.go
 //
 
 import (
 	crand "crypto/rand"
-	"mapreduce/mr"
 	"math/big"
 	"os"
 	"sort"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/ArshiAbolghasemi/disgo/mr"
 )
 
 func maybeCrash() {

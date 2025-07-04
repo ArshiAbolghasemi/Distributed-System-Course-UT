@@ -3,7 +3,7 @@ package main
 //
 // pbservice client application
 //
-// export GOPATH=~/mapreduce
+// export GOPATH=~/github.com/ArshiAbolghasemi/disgo
 // go build viewd.go
 // go build pbd.go
 // go build pbc.go
@@ -20,8 +20,9 @@ package main
 
 import (
 	"fmt"
-	"mapreduce/pbservice"
 	"os"
+
+	"github.com/ArshiAbolghasemi/disgo/pbservice"
 )
 
 func usage() {

@@ -1,3 +1,3 @@
 # Components
 
-- [MapReduce](./mr/README.md)
+- [MapReduce](./mapreduce/README.md)

@@ -6,13 +6,13 @@ import (
 	"testing"
 	"time"
 
-	"mapreduce/kvsrv1/rpc"
-	kvtest "mapreduce/kvtest1"
+	"github.com/ArshiAbolghasemi/disgo/kvsrv1/rpc"
+	kvtest "github.com/ArshiAbolghasemi/disgo/kvtest1"
 )
 
 // Test Put with a single client and a reliable network
 func TestReliablePut(t *testing.T) {
-	const Val = "mapreduce"
+	const Val = "github.com/ArshiAbolghasemi/disgo"
 	const Ver = 0
 
 	ts := MakeTestKV(t, true)

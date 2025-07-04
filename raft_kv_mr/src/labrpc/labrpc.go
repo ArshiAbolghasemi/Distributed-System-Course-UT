@@ -1,7 +1,7 @@
 package labrpc
 
 //
-// channel-based RPC, for mapreduce labs.
+// channel-based RPC, for github.com/ArshiAbolghasemi/disgo labs.
 //
 // simulates a network that can lose requests, lose replies,
 // delay messages, and entirely disconnect particular hosts.
@@ -52,13 +52,14 @@ package labrpc
 import (
 	"bytes"
 	"log"
-	"mapreduce/labgob"
 	"math/rand"
 	"reflect"
 	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"github.com/ArshiAbolghasemi/disgo/labgob"
 )
 
 const (

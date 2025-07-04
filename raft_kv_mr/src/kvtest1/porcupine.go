@@ -9,9 +9,9 @@ import (
 
 	"github.com/anishathalye/porcupine"
 
-	"mapreduce/kvsrv1/rpc"
-	models "mapreduce/models1"
-	tester "mapreduce/tester1"
+	"github.com/ArshiAbolghasemi/disgo/kvsrv1/rpc"
+	models "github.com/ArshiAbolghasemi/disgo/models1"
+	tester "github.com/ArshiAbolghasemi/disgo/tester1"
 )
 
 const linearizabilityCheckTimeout = 1 * time.Second

@@ -17,11 +17,12 @@ package main
 
 import (
 	"fmt"
-	"mapreduce/diskv"
 	"os"
 	"runtime"
 	"strconv"
 	"time"
+
+	"github.com/ArshiAbolghasemi/disgo/diskv"
 )
 
 func usage() {

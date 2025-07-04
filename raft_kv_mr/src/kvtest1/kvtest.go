@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"mapreduce/kvsrv1/rpc"
+	"github.com/ArshiAbolghasemi/disgo/kvsrv1/rpc"
 )
 
 // The tester generously allows solutions to complete elections in one second

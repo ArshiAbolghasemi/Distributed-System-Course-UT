@@ -6,9 +6,10 @@ package main
 
 import (
 	"fmt"
-	"mapreduce/pbservice"
 	"os"
 	"time"
+
+	"github.com/ArshiAbolghasemi/disgo/pbservice"
 )
 
 func main() {

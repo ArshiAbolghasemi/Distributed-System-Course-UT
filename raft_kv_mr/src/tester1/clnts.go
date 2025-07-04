@@ -4,7 +4,7 @@ import (
 	//"log"
 	"sync"
 
-	"mapreduce/labrpc"
+	"github.com/ArshiAbolghasemi/disgo/labrpc"
 )
 
 type end struct {

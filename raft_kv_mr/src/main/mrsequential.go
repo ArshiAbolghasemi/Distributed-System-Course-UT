@@ -1,7 +1,7 @@
 package main
 
 //
-// simple sequential MapReduce.
+// simple sequential github.com/ArshiAbolghasemi/disgo.
 //
 // go run mrsequential.go wc.so pg*.txt
 //
@@ -10,10 +10,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"mapreduce/mr"
 	"os"
 	"plugin"
 	"sort"
+
+	"github.com/ArshiAbolghasemi/disgo/mr"
 )
 
 // for sorting by key.
@@ -53,7 +54,7 @@ func main() {
 	}
 
 	//
-	// a big difference from real MapReduce is that all the
+	// a big difference from real github.com/ArshiAbolghasemi/disgo is that all the
 	// intermediate data is in one place, intermediate[],
 	// rather than being partitioned into NxM buckets.
 	//

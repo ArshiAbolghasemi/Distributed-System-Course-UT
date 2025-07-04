@@ -3,12 +3,12 @@ package shardgrp
 import (
 	"sync/atomic"
 
-	"mapreduce/kvraft1/rsm"
-	"mapreduce/kvsrv1/rpc"
-	"mapreduce/labgob"
-	"mapreduce/labrpc"
-	"mapreduce/shardkv1/shardgrp/shardrpc"
-	tester "mapreduce/tester1"
+	"github.com/ArshiAbolghasemi/disgo/kvraft1/rsm"
+	"github.com/ArshiAbolghasemi/disgo/kvsrv1/rpc"
+	"github.com/ArshiAbolghasemi/disgo/labgob"
+	"github.com/ArshiAbolghasemi/disgo/labrpc"
+	"github.com/ArshiAbolghasemi/disgo/shardkv1/shardgrp/shardrpc"
+	tester "github.com/ArshiAbolghasemi/disgo/tester1"
 )
 
 type KVServer struct {

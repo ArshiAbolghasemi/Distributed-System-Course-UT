@@ -1,7 +1,7 @@
 package main
 
 //
-// a word-count application "plugin" for MapReduce.
+// a word-count application "plugin" for github.com/ArshiAbolghasemi/disgo.
 //
 // go build -buildmode=plugin wc_long.go
 //
@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"mapreduce/mr"
+	"github.com/ArshiAbolghasemi/disgo/mr"
 )
 
 // The map function is called once for each file of input.

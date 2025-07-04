@@ -9,16 +9,16 @@ import (
 	"testing"
 	"time"
 
-	"mapreduce/kvraft1/rsm"
-	"mapreduce/kvsrv1/rpc"
-	kvtest "mapreduce/kvtest1"
-	"mapreduce/labrpc"
-	kvsrv "mapreduce/shardkv1/kvsrv1"
-	"mapreduce/shardkv1/shardcfg"
-	"mapreduce/shardkv1/shardctrler"
-	"mapreduce/shardkv1/shardctrler/param"
-	"mapreduce/shardkv1/shardgrp"
-	tester "mapreduce/tester1"
+	"github.com/ArshiAbolghasemi/disgo/kvraft1/rsm"
+	"github.com/ArshiAbolghasemi/disgo/kvsrv1/rpc"
+	kvtest "github.com/ArshiAbolghasemi/disgo/kvtest1"
+	"github.com/ArshiAbolghasemi/disgo/labrpc"
+	kvsrv "github.com/ArshiAbolghasemi/disgo/shardkv1/kvsrv1"
+	"github.com/ArshiAbolghasemi/disgo/shardkv1/shardcfg"
+	"github.com/ArshiAbolghasemi/disgo/shardkv1/shardctrler"
+	"github.com/ArshiAbolghasemi/disgo/shardkv1/shardctrler/param"
+	"github.com/ArshiAbolghasemi/disgo/shardkv1/shardgrp"
+	tester "github.com/ArshiAbolghasemi/disgo/tester1"
 )
 
 type Test struct {

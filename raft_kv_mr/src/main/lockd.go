@@ -1,6 +1,6 @@
 package main
 
-// export GOPATH=~/mapreduce
+// export GOPATH=~/github.com/ArshiAbolghasemi/disgo
 // go build lockd.go
 // go build lockc.go
 // ./lockd -p a b &
@@ -13,9 +13,10 @@ package main
 
 import (
 	"fmt"
-	"mapreduce/lockservice"
 	"os"
 	"time"
+
+	"github.com/ArshiAbolghasemi/disgo/lockservice"
 )
 
 func main() {

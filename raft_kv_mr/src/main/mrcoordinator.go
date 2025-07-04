@@ -11,9 +11,10 @@ package main
 
 import (
 	"fmt"
-	"mapreduce/mr"
 	"os"
 	"time"
+
+	"github.com/ArshiAbolghasemi/disgo/mr"
 )
 
 func main() {

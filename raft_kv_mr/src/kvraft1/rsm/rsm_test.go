@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"mapreduce/kvsrv1/rpc"
+	"github.com/ArshiAbolghasemi/disgo/kvsrv1/rpc"
 )
 
 // test that each server executes increments and updates its counter.

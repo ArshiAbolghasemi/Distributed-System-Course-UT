@@ -10,6 +10,9 @@ package raft
 
 import (
 	"fmt"
+
+	tester "github.com/ArshiAbolghasemi/disgo/tester1"
+
 	// "log"
 	"math/rand"
 	"sync"

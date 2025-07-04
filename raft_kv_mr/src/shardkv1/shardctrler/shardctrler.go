@@ -7,8 +7,8 @@ package shardctrler
 import (
 	"sync/atomic"
 
-	"mapreduce/kvsrv1/rpc"
-	"mapreduce/shardkv1/shardcfg"
+	"github.com/ArshiAbolghasemi/disgo/kvsrv1/rpc"
+	"github.com/ArshiAbolghasemi/disgo/shardkv1/shardcfg"
 )
 
 // ShardCtrler for the controller and kv clerk.

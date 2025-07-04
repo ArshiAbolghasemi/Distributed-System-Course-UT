@@ -3,9 +3,9 @@ package kvsrv
 import (
 	"sync"
 
-	"mapreduce/kvsrv1/rpc"
-	"mapreduce/labrpc"
-	tester "mapreduce/tester1"
+	"github.com/ArshiAbolghasemi/disgo/kvsrv1/rpc"
+	"github.com/ArshiAbolghasemi/disgo/labrpc"
+	tester "github.com/ArshiAbolghasemi/disgo/tester1"
 )
 
 type KVServer struct {

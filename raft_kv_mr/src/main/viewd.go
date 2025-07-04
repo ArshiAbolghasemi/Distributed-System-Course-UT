@@ -6,9 +6,10 @@ package main
 
 import (
 	"fmt"
-	"mapreduce/viewservice"
 	"os"
 	"time"
+
+	"github.com/ArshiAbolghasemi/disgo/viewservice"
 )
 
 func main() {

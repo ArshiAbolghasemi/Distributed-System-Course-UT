@@ -1,7 +1,7 @@
 package main
 
 //
-// a MapReduce pseudo-application that counts the number of times map/reduce
+// a github.com/ArshiAbolghasemi/disgo pseudo-application that counts the number of times map/reduce
 // tasks are run, to test whether jobs are assigned multiple times even when
 // there is no failure.
 //
@@ -11,12 +11,13 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-	"mapreduce/mr"
 	"math/rand"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/ArshiAbolghasemi/disgo/mr"
 )
 
 var count int

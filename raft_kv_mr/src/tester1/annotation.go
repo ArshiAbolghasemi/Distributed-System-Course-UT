@@ -2,13 +2,14 @@ package tester
 
 import (
 	"fmt"
-	models "mapreduce/models1"
 	"os"
 	"os/signal"
 	"slices"
 	"strings"
 	"sync"
 	"time"
+
+	models "github.com/ArshiAbolghasemi/disgo/models1"
 
 	"github.com/anishathalye/porcupine"
 )

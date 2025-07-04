@@ -4,8 +4,8 @@ import (
 	// "log"
 	"testing"
 
-	kvtest "mapreduce/kvtest1"
-	tester "mapreduce/tester1"
+	kvtest "github.com/ArshiAbolghasemi/disgo/kvtest1"
+	tester "github.com/ArshiAbolghasemi/disgo/tester1"
 )
 
 type TestKV struct {

@@ -1,7 +1,7 @@
 package lock
 
 import (
-	kvsrv "mapreduce/shardkv1/kvsrv1"
+	kvsrv "github.com/ArshiAbolghasemi/disgo/shardkv1/kvsrv1"
 )
 
 type Lock struct {

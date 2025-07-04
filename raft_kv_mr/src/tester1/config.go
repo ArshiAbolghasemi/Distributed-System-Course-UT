@@ -17,7 +17,7 @@ import (
 	"testing"
 	"time"
 
-	"mapreduce/labrpc"
+	"github.com/ArshiAbolghasemi/disgo/labrpc"
 )
 
 const GRP0 = 0

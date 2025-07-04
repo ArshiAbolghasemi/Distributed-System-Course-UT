@@ -1,9 +1,9 @@
 package shardgrp
 
 import (
-	"mapreduce/kvsrv1/rpc"
-	"mapreduce/shardkv1/shardcfg"
-	tester "mapreduce/tester1"
+	"github.com/ArshiAbolghasemi/disgo/kvsrv1/rpc"
+	"github.com/ArshiAbolghasemi/disgo/shardkv1/shardcfg"
+	tester "github.com/ArshiAbolghasemi/disgo/tester1"
 )
 
 type Clerk struct {

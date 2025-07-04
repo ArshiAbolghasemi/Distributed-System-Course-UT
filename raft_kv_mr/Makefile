@@ -1,5 +1,5 @@
 .PHONY: test
 
 test:
-	$(MAKE) -C mr test
+	$(MAKE) -C mapreduce test
 

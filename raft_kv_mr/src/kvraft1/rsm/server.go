@@ -5,11 +5,11 @@ import (
 	"log"
 	"sync"
 
-	"mapreduce/labgob"
-	"mapreduce/labrpc"
-	"mapreduce/raftapi"
+	"github.com/ArshiAbolghasemi/disgo/labgob"
+	"github.com/ArshiAbolghasemi/disgo/labrpc"
+	"github.com/ArshiAbolghasemi/disgo/raftapi"
 
-	tester "mapreduce/tester1"
+	tester "github.com/ArshiAbolghasemi/disgo/tester1"
 )
 
 type Inc struct {

@@ -6,8 +6,9 @@ package main
 
 import (
 	"fmt"
-	"mapreduce/lockservice"
 	"os"
+
+	"github.com/ArshiAbolghasemi/disgo/lockservice"
 )
 
 func usage() {

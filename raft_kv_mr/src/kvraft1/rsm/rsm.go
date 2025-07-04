@@ -3,11 +3,11 @@ package rsm
 import (
 	"sync"
 
-	"mapreduce/kvsrv1/rpc"
-	"mapreduce/labrpc"
-	"mapreduce/raftapi"
+	"github.com/ArshiAbolghasemi/disgo/kvsrv1/rpc"
+	"github.com/ArshiAbolghasemi/disgo/labrpc"
+	"github.com/ArshiAbolghasemi/disgo/raftapi"
 
-	tester "mapreduce/tester1"
+	tester "github.com/ArshiAbolghasemi/disgo/tester1"
 )
 
 var useRaftStateMachine bool // to plug in another raft besided raft1

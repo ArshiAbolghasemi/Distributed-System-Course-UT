@@ -8,12 +8,13 @@ package main
 
 import (
 	crand "crypto/rand"
-	"mapreduce/mr"
 	"math/big"
 	"os"
 	"sort"
 	"strconv"
 	"strings"
+
+	"github.com/ArshiAbolghasemi/disgo/mr"
 )
 
 func maybeCrash() {

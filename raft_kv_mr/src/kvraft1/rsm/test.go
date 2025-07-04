@@ -6,9 +6,9 @@ import (
 	"testing"
 	"time"
 
-	"mapreduce/kvsrv1/rpc"
-	"mapreduce/labrpc"
-	"mapreduce/raftapi"
+	"github.com/ArshiAbolghasemi/disgo/kvsrv1/rpc"
+	"github.com/ArshiAbolghasemi/disgo/labrpc"
+	"github.com/ArshiAbolghasemi/disgo/raftapi"
 )
 
 type Test struct {

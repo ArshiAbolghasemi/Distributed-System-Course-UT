@@ -1,9 +1,9 @@
 package kvraft
 
 import (
-	"mapreduce/kvsrv1/rpc"
+	"github.com/ArshiAbolghasemi/disgo/kvsrv1/rpc"
 
-	kvtest "mapreduce/kvtest1"
+	kvtest "github.com/ArshiAbolghasemi/disgo/kvtest1"
 )
 
 type Clerk struct {
