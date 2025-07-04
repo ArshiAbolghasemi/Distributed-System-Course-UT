@@ -11,6 +11,7 @@ import (
 
 	"github.com/ArshiAbolghasemi/disgo/labrpc"
 	"github.com/ArshiAbolghasemi/disgo/raftapi"
+	tester "github.com/ArshiAbolghasemi/disgo/tester1"
 )
 
 type Test struct {
