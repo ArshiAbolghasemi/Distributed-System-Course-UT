@@ -1,5 +1,5 @@
-SRC_MAIN_DIR = ./src/main
-SRC_MRAPPS_DIR = ./src/mrapps
+SRC_MAIN_DIR = ../src/main
+SRC_MRAPPS_DIR = ../src/mrapps
 
 APPS = wc indexer crash nocrash rtiming mtiming jobcount early_exit
 
