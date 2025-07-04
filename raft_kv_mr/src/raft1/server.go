@@ -199,7 +199,7 @@ func (rs *rfsrv) ingestSnap(snapshot []byte, index int) string {
 		return err
 	}
 	rs.logs = map[int]any{}
-	for j := range xlog {	
+	for j := range xlog {
 		rs.logs[j] = xlog[j]
 	}
 	rs.lastApplied = lastIncludedIndex
