@@ -113,9 +113,13 @@ The system implements a error handling strategy:
 - **Versioning**: Prevents lost updates through optimistic concurrency control
 
 
+
 ## Testing
 
-The system is designed to work with the provided test framework:
-- Supports network partition simulation
-- Handles message loss and reordering
-- Validates correctness under concurrent access
+| Target                 | Description                                |
+|------------------------|--------------------------------------------|
+| `make test`            | Run **basic** KV server tests              |
+| `make test-reliable`   | Run **reliable** KV server tests (`-run reliable`) |
+| `make test-lock`       | Run **basic** lock service tests           |
+| `make test-lock-reliable` | Run **reliable** lock service tests (`-run reliable`) |
+| `make test-all`        | Run _all_ tests in sequence                |
