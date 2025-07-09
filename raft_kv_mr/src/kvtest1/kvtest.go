@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/ArshiAbolghasemi/disgo/kvsrv1/rpc"
+	tester "github.com/ArshiAbolghasemi/disgo/tester1"
 )
 
 // The tester generously allows solutions to complete elections in one second
